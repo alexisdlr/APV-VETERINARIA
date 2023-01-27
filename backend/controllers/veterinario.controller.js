@@ -1,18 +1,20 @@
+import emailRegistro from "../helpers/emailRegistro.js";
 import generateJWT from "../helpers/generateJWT.js";
 import generateToken from "../helpers/generateToken.js";
 import Veterinario from "../models/Veterinario.js";
 export const register = async (req, res) => {
-  const { email } = req.body;
+  const { email, name } = req.body;
   const userExist = await Veterinario.findOne({ email });
 
   if (userExist)
     return res.status(400).json({ msg: "El usuario ya existe" });
 
-  console.log(req.body)
   try {
     //register on db
     const veterinario = new Veterinario(req.body);
     const veterinarioGuardado = await veterinario.save();
+
+    emailRegistro({email, name, token: veterinarioGuardado.token })
     res.json(veterinarioGuardado);
   } catch (error) {
     console.log(error);
@@ -40,7 +42,7 @@ export const confirm = async (req, res) => {
   const usuarioConfirmar = await Veterinario.findOne({token})
 
   if(!usuarioConfirmar) return res.status(400).json({
-    msg: 'El usuario no existe'
+    msg: 'Token no válido'
   })
 
   try {
