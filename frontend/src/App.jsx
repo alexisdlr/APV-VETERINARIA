@@ -1,9 +1,9 @@
 import {
-  createBrowserRouter,
-  Navigate,
-  Outlet,
-  RouterProvider,
+  Routes,
+  Route,
+  BrowserRouter,
 } from "react-router-dom";
+import { AuthProvider } from "./context/AuthProvider";
 import AuthLayout from "./Layout/AuthLayout";
 import ProtectedRoutes from "./Layout/ProtectedRoutes";
 import AdminPacientes from "./Pages/AdminPacientes";
@@ -14,63 +14,25 @@ import OlvidePassword from "./Pages/OlvidePassword";
 import Registrar from "./Pages/Registrar";
 
 function App() {
-
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: (
-          <AuthLayout />
-      ),
-      children: [
-        {
-          path: "/",
-          index: true,
-          element: (
-              <Login />
-          ),
-        },
-        {
-          path: "registrar",
-          element: (
-              <Registrar />
-          ),
-        },
-        {
-          path: "olvide-password",
-          element: (
-              <OlvidePassword />
-          ),
-        },
-        {
-          path: "olvide-password/:token",
-          element: (
-              <NuevoPassword />
-          ),
-        },
-         {
-          path: "confirmar/:id",
-          element: (
-              <ConfirmarCuenta />
-          ),
-        },
-       
-      ],
-    },
-    {
-      path: '/admin',
-      element: (<ProtectedRoutes />),
-      children: [
-        {
-          path: '/admin',
-          index: true,
-          element: (<AdminPacientes />)
-        },
-      ]
-      
-    }
-
-  ]);
-  return <RouterProvider router={router} />;
+ 
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<AuthLayout />} >
+            <Route index element={<Login />} />
+            <Route path="registrar" element={<Registrar />} />
+            <Route path="olvide-password" element={<OlvidePassword />} />
+            <Route path="olvide-password/:token" element={<NuevoPassword />} />
+            <Route path="confirmar/:id" element={<ConfirmarCuenta />} />
+          </Route>
+          <Route path="/admin" element={<ProtectedRoutes />}>
+            <Route index element={<AdminPacientes />} />
+          </Route>
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
+  );
 }
 
 export default App;

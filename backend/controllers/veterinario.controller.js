@@ -24,7 +24,7 @@ export const register = async (req, res) => {
 
 export const profile = async (req, res) => {
   const {veterinario} = req
-  res.json({perfil: veterinario})
+  res.json(veterinario)
 };
 
 export const login = async (req, res) => {
@@ -36,7 +36,14 @@ export const login = async (req, res) => {
   if(!usuario.isConfirmed) return res.status(500).json({msg: 'Usuario no confirmado'})
   if( await !usuario.comparePass(password)) return res.status(500).json({msg: 'Las contraseñas no coinciden'})
   
-  res.json({token: generateJWT(usuario.id, usuario.email)})
+
+  res.json({
+    _id: usuario.id,
+    nombre: usuario.name,
+    email: usuario.email,
+    token: generateJWT(usuario.id, usuario.email),
+
+  })
 };
 
 export const confirm = async (req, res) => {

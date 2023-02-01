@@ -5,11 +5,17 @@ import useAuth from "../hooks/useAuth"
 const ProtectedRoutes = () => {
   const {auth, cargando} = useAuth()
 
+  console.log(auth, 'desde protected routes, imprimiendo el auth')
+  console.log(cargando ,'desde pr');
   if (cargando) return '...Cargando'
   return (
     <>
       <Header />
-      {auth?._id ? <Outlet /> : <Navigate to={'/'} />}
+      {auth?._id ? (
+        <main className="container mx-auto mt-10 px-8">
+          <Outlet />
+        </main>
+      ) : <Navigate to={'/'} />}
       <Footer />
     </>
   )
