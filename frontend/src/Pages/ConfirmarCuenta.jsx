@@ -5,9 +5,9 @@ import Alerta from "../Components/Alerta";
 import makeRequest from "../config/axios";
 
 function ConfirmarCuenta() {
-  const [alerta, setAlerta] = useState({});
   const params = useParams();
   const { id } = params;
+  const [alerta, setAlerta] = useState({});
   const [loading, setLoading] = useState(true);
   const [cuentaConfirmada, setCuentaConfirmada] = useState(false);
 

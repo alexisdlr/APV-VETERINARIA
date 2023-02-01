@@ -1,3 +1,4 @@
+import emailPassword from "../helpers/emailPassword.js";
 import emailRegistro from "../helpers/emailRegistro.js";
 import generateJWT from "../helpers/generateJWT.js";
 import generateToken from "../helpers/generateToken.js";
@@ -20,10 +21,12 @@ export const register = async (req, res) => {
     console.log(error);
   }
 };
+
 export const profile = async (req, res) => {
   const {veterinario} = req
   res.json({perfil: veterinario})
 };
+
 export const login = async (req, res) => {
   const {email, password} = req.body
 
@@ -40,21 +43,20 @@ export const confirm = async (req, res) => {
   const {token} = req.params
 
   const usuarioConfirmar = await Veterinario.findOne({token})
-
-  if(!usuarioConfirmar) return res.status(400).json({
+  if(!usuarioConfirmar) return res.status(404).json({
     msg: 'Token no válido'
   })
-
   try {
     usuarioConfirmar.token = null
     usuarioConfirmar.isConfirmed = true
-    console.log(usuarioConfirmar)
     await usuarioConfirmar.save()
     res.json({
       msg: "usuario confirmado"
     });
   } catch (error) {
-    console.log(error)
+    return res.status(500).json(
+      {msg : 'Hubo un error'}
+    )
   }
 };
 
@@ -68,12 +70,14 @@ export const forgotPass = async (req, res) => {
   try {
     existeVeterinario.token = generateToken()
     await existeVeterinario.save()
+    emailPassword({email, name: existeVeterinario.name, token: existeVeterinario.token })
     return res.json({msg: 'Hemos enviado un email con las instrucciones'})
   } catch (error) {
     console.log(error)
     return res.json({error})
   }
 }
+
 export const checkToken = async (req, res) => {
   const {token} = req.params
 

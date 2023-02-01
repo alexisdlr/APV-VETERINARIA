@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 8800
 dotenv.config()
 
 connectDB();
-const dominios = ['http://127.0.0.1:5173']
+const dominios = [process.env.FRONTEND_URL]
 
 const corsOptions = {
   origin: function (origin, callback) {

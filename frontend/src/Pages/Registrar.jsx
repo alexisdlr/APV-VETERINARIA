@@ -34,8 +34,8 @@ function Registrar() {
     }
     setAlerta({})
     try {
-      const url = '/api/veterinarios'
-      await makeRequest.post(url, {name, email, password})
+    
+      await makeRequest.post('/api/veterinarios', {name, email, password})
       setAlerta({
         msg: 'Creado correctamente, revisa tu email!',
         error: false
@@ -69,7 +69,7 @@ function Registrar() {
               <input
                 type={"text"}
                 placeholder="Tu nombre"
-                className="border w-full mt-3 p-3 bg-gray-50 rounded-xl focus:outline-0"
+                className="transition ease-in-out duration-300 border w-full mt-3 p-3 bg-gray-50 rounded-xl focus:outline-0 focus:border-indigo-700"
                 value={name}
                 onChange={e => setName(e.target.value)}
               />
@@ -81,7 +81,7 @@ function Registrar() {
               <input
                 type={"email"}
                 placeholder="Email de registro"
-                className="border w-full mt-3 p-3 bg-gray-50 rounded-xl focus:outline-0"
+                className="transition ease-in-out duration-300 border w-full mt-3 p-3 bg-gray-50 rounded-xl focus:outline-0 focus:border-indigo-700"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
               />
@@ -95,7 +95,7 @@ function Registrar() {
                 placeholder="Password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                className="border w-full mt-3 p-3 bg-gray-50 rounded-xl focus:outline-0"
+                className="transition ease-in-out duration-300 border w-full mt-3 p-3 bg-gray-50 rounded-xl focus:outline-0 focus:border-indigo-700"
               />
             </div>
             <div className="my-6">
@@ -107,19 +107,19 @@ function Registrar() {
                 placeholder="Repite tu password"
                 onChange={e => setRepPass(e.target.value)}
                 value={repPass}
-                className="border w-full mt-3 p-3 bg-gray-50 rounded-xl focus:outline-0"
+                className="transition ease-in-out duration-300 border w-full mt-3 p-3 bg-gray-50 rounded-xl focus:outline-0 focus:border-indigo-700"
               />
             </div>
             <input
               type="submit"
               value="crear cuenta"
-              className="w-full uppercase font-bold p-3 bg-indigo-700 text-white rounded-xl hover:cursor-pointer hover:bg-indigo-800"
+              className="transition ease-in-out duration-300 w-full uppercase font-bold p-3 bg-indigo-700 text-white rounded-xl hover:cursor-pointer hover:bg-indigo-800"
             />
           </form>
           <nav className="my-5 sm:flex sm:justify-between px-3">
             <Link
               to={"/"}
-              className="text-gray-500 block text-center my-3  hover:opacity-80"
+              className="transition ease-in-out duration-300 text-gray-500 block text-center my-3  hover:opacity-80"
             >
               Ya tienes una cuenta?{" "}
               <span className="text-indigo-600">Inicia sesión.</span>
