@@ -1,10 +1,16 @@
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import useAuth from "../hooks/useAuth";
 
 const Header = () => {
   const {logout} = useAuth()
   return (
-    <header className="py-10 bg-indigo-600">
+    <motion.header 
+    initial={{ opacity: 0, y: -100 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.3, type: "tween" }}
+    className="py-10 bg-indigo-600">
       <div className="container px-8 mx-auto flex flex-col lg:flex-row justify-between items-center">
         <h1 className="text-2xl text-center text-indigo-200 font-bold">
           Administrador de pacientes de{" "}
@@ -31,7 +37,7 @@ const Header = () => {
           </button>
         </nav>
       </div>
-    </header>
+    </motion.header>
   );
 };
 

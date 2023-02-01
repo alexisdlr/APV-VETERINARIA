@@ -1,4 +1,3 @@
-import { lazy, Suspense } from "react";
 import {
   Routes,
   Route,
@@ -9,12 +8,11 @@ import AuthLayout from "./Layout/AuthLayout";
 import ProtectedRoutes from "./Layout/ProtectedRoutes";
 import AdminPacientes from "./Pages/AdminPacientes";
 import ConfirmarCuenta from "./Pages/ConfirmarCuenta";
+import Login from "./Pages/Login";
 import NuevoPassword from "./Pages/NuevoPassword";
 import OlvidePassword from "./Pages/OlvidePassword";
 import Registrar from "./Pages/Registrar";
-import Loader from "./Components/Loader";
 
-const Login = lazy(() => import('./Pages/Login'))
 function App() {
  
   return (
@@ -22,11 +20,7 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route path="/" element={<AuthLayout />} >
-            <Route index element={
-              <Suspense fallback={<Loader />}>
-                <Login />
-              </Suspense>
-            } />
+            <Route index element={<Login />} />
             <Route path="registrar" element={<Registrar />} />
             <Route path="olvide-password" element={<OlvidePassword />} />
             <Route path="olvide-password/:token" element={<NuevoPassword />} />
