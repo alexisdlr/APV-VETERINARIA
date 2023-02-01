@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import useAuth from "../hooks/useAuth";
+import Alerta from "./Alerta";
 
 const Form = () => {
   const { auth } = useAuth();
@@ -9,8 +10,8 @@ const Form = () => {
   const [propietario, setPropietario] = useState("");
   const [fecha, setFecha] = useState("");
   const [sintomas, setSintomas] = useState("");
+  const [alerta, setAlerta] = useState({});
   const index = 0;
-
   const variants = {
     hidden: {
       opacity: 0,
@@ -24,6 +25,18 @@ const Form = () => {
     }),
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if ([nombre, propietario, email, fecha, sintomas].includes("")) {
+      setAlerta({
+        msg: "Ningun campo puede estar vacio",
+        error: true,
+      });
+      return;
+    }
+  };
+  const { msg } = alerta;
   return (
     <>
       <motion.div
@@ -41,14 +54,16 @@ const Form = () => {
           <span className="text-indigo-600 font-bold">Administralos</span>
         </p>
       </motion.div>
-
-      <form>
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white rounded-lg shadow-md py-10 px-5 mb-10 md:mb-0"
+      >
         <motion.div
           initial={"hidden"}
           animate={"visible"}
           custom={{ delay: (index + 1) * 0.1 }}
           variants={variants}
-          className="mb-5"
+          className="my-5"
         >
           <label
             htmlFor="mascota"
@@ -59,6 +74,8 @@ const Form = () => {
           <input
             id="mascota"
             type={"text"}
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
             placeholder={"Nombre de la mascota"}
             className="transition ease-in-out duration-300 border-2 w-full mt-3 p-3 bg-gray-50 rounded-xl focus:outline-0 focus:border-indigo-700"
           />
@@ -80,6 +97,8 @@ const Form = () => {
             id="propietario"
             type={"text"}
             placeholder={"Nombre del dueño"}
+            value={propietario}
+            onChange={(e) => setPropietario(e.target.value)}
             className="transition ease-in-out duration-300 border-2 w-full mt-3 p-3 bg-gray-50 rounded-xl focus:outline-0 focus:border-indigo-700"
           />
         </motion.div>
@@ -97,6 +116,8 @@ const Form = () => {
             id="email"
             type={"email"}
             placeholder={"Email"}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="transition ease-in-out duration-300 border-2 w-full mt-3 p-3 bg-gray-50 rounded-xl focus:outline-0 focus:border-indigo-700"
           />
         </motion.div>
@@ -116,6 +137,8 @@ const Form = () => {
           <textarea
             id="sintomas"
             placeholder={"Describe los sintomas"}
+            value={sintomas}
+            onChange={(e) => setSintomas(e.target.value)}
             className="transition ease-in-out duration-300 border-2 w-full mt-3 p-3 bg-gray-50 rounded-xl focus:outline-0 focus:border-indigo-700"
           />
         </motion.div>
@@ -132,14 +155,17 @@ const Form = () => {
           <input
             id="fecha"
             type={"date"}
+            value={fecha}
+            onChange={(e) => setFecha(e.target.value)}
             className="transition ease-in-out duration-300 border-2 w-full mt-3 p-3 bg-gray-50 rounded-xl focus:outline-0 focus:border-indigo-700"
           />
         </motion.div>
         <input
           type={"submit"}
           value="Crear paciente"
-          className="transition ease-in-out duration-300 w-full uppercase font-bold p-3 bg-indigo-700 text-white rounded-xl hover:cursor-pointer hover:bg-indigo-800"
+          className="transition ease-in-out duration-300 w-full uppercase font-bold p-3 bg-indigo-600 text-white rounded-xl hover:cursor-pointer hover:bg-indigo-800 mb-6"
         />
+        {msg && <Alerta alerta={alerta} />}
       </form>
     </>
   );

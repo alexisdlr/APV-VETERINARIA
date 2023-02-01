@@ -2,6 +2,7 @@ import Alerta from "../Components/Alerta";
 import makeRequest from "../config/axios";
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import { motion } from "framer-motion";
 const NuevoPassword = () => {
   const params = useParams();
   const [password, setPassword] = useState("");
@@ -62,14 +63,23 @@ const NuevoPassword = () => {
   const { msg } = alerta;
   return (
     <>
-      <div>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0 }}
+      >
         <h1 className="text-indigo-600 text-center text-5xl lg:text-7xl font-black">
           Reestablece tu password y no pierdas acceso a tu{" "}
           <span className="text-black">Cuenta.</span>
         </h1>
-      </div>
+      </motion.div>
 
-      <div className="mt-20 md:mt-5 shadow-lg px-5 py-10 rounded-xl bg-white">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0 }}
+        className="mt-20 md:mt-5 shadow-lg px-5 py-10 rounded-xl bg-white"
+      >
         {msg && <Alerta alerta={alerta} />}
         {tokenValido && (
           <>
@@ -96,7 +106,7 @@ const NuevoPassword = () => {
               <input
                 type="submit"
                 value="reestablecer password"
-                className="transition ease-in-out duration-300 w-full uppercase font-bold p-3 bg-indigo-700 text-white rounded-xl hover:cursor-pointer hover:bg-indigo-800"
+                className="transition ease-in-out duration-300 w-full uppercase font-bold p-3 bg-indigo-600 text-white rounded-xl hover:cursor-pointer hover:bg-indigo-800"
               />
             </form>
             <nav className="my-5 sm:flex sm:justify-between px-3">
@@ -109,7 +119,7 @@ const NuevoPassword = () => {
             </nav>
           </>
         )}
-      </div>
+      </motion.div>
     </>
   );
 };

@@ -4,6 +4,8 @@ import Alerta from "../Components/Alerta";
 import makeRequest from "../config/axios";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import { motion } from "framer-motion";
+
 const Login = () => {
 
 
@@ -43,13 +45,21 @@ const Login = () => {
 
   return (
     <>
-      <div>
+      <motion.div
+           initial={{ opacity: 0, scale: 0.8 }}
+           animate={{ opacity: 1, scale: 1 }}
+           exit={{ opacity: 0 }}
+      >
         <h1 className="text-indigo-600 text-center text-5xl lg:text-7xl font-black">
           Inicia sesión y Administra tus{" "}
           <span className="text-black">Pacientes.</span>
         </h1>
-      </div>
-      <div className="mt-20 md:mt-5 shadow-lg px-5 py-10 rounded-xl bg-white">
+      </motion.div>
+      <motion.div 
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+      className="mt-20 md:mt-5 shadow-lg px-5 py-10 rounded-xl bg-white">
         <form onSubmit={handleSubmit}>
           {msg && <Alerta alerta={alerta} />}
           <div className="my-6">
@@ -79,7 +89,7 @@ const Login = () => {
           <input
             type="submit"
             value="Iniciar sesion"
-            className="transition ease-in-out duration-300 w-full uppercase font-bold p-3 bg-indigo-700 text-white rounded-xl hover:cursor-pointer hover:bg-indigo-800"
+            className="transition ease-in-out duration-300 w-full uppercase font-bold p-3 bg-indigo-600 text-white rounded-xl hover:cursor-pointer hover:bg-indigo-800"
           />
         </form>
         <nav className="my-5 sm:flex sm:justify-between px-3">
@@ -97,7 +107,7 @@ const Login = () => {
             Olvidé mi contraseña.
           </Link>
         </nav>
-      </div>
+      </motion.div>
     </>
   );
 };

@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Alerta from "../Components/Alerta";
@@ -18,11 +19,9 @@ function OlvidePassword() {
         "/api/veterinarios/olvide-password",
         { email }
       );
-      setAlerta({msg: data.msg, error: false})
+      setAlerta({ msg: data.msg, error: false });
     } catch (error) {
-      setAlerta(
-        { msg: error.response.data.msg, error: true }
-        );
+      setAlerta({ msg: error.response.data.msg, error: true });
     }
   };
 
@@ -30,14 +29,23 @@ function OlvidePassword() {
 
   return (
     <>
-      <div>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0 }}
+      >
         <h1 className="text-indigo-600 text-center text-5xl lg:text-7xl font-black">
           Recupera tu acceso y no pierdas tus{" "}
           <span className="text-black">Pacientes.</span>
         </h1>
-      </div>
+      </motion.div>
 
-      <div className="mt-20 md:mt-5 shadow-lg px-5 py-10 rounded-xl bg-white">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0 }}
+        className="mt-20 md:mt-5 shadow-lg px-5 py-10 rounded-xl bg-white"
+      >
         {msg && <Alerta alerta={alerta} />}
         <form onSubmit={handleSubmit}>
           <div className="my-6">
@@ -55,7 +63,7 @@ function OlvidePassword() {
           <input
             type="submit"
             value="enviar instrucciones"
-            className="transition ease-in-out duration-300 w-full uppercase font-bold p-3 bg-indigo-700 text-white rounded-xl hover:cursor-pointer hover:bg-indigo-800"
+            className="transition ease-in-out duration-300 w-full uppercase font-bold p-3 bg-indigo-600 text-white rounded-xl hover:cursor-pointer hover:bg-indigo-800"
           />
         </form>
         <nav className="my-5 sm:flex sm:justify-between px-3">
@@ -74,7 +82,7 @@ function OlvidePassword() {
             <span className="text-indigo-600">Registrate.</span>
           </Link>
         </nav>
-      </div>
+      </motion.div>
     </>
   );
 }
