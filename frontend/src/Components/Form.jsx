@@ -2,9 +2,11 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import useAuth from "../hooks/useAuth";
 import Alerta from "./Alerta";
+import usePacientes from "../hooks/usePacientes";
 
 const Form = () => {
   const { auth } = useAuth();
+  const { crearPaciente } = usePacientes();
   const [email, setEmail] = useState("");
   const [nombre, setNombre] = useState("");
   const [propietario, setPropietario] = useState("");
@@ -35,6 +37,9 @@ const Form = () => {
       });
       return;
     }
+
+    setAlerta({});
+    crearPaciente({ nombre, propietario, email, fecha, sintomas });
   };
   const { msg } = alerta;
   return (
@@ -45,10 +50,9 @@ const Form = () => {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.3, type: "tween" }}
       >
-        <p className="text-center text-lg mb-1">
-          Bienvenido {""}
-          <span className="text-indigo-600 font-bold">{auth.nombre}</span>
-        </p>
+        <h2 className="font-black text-3xl text-center">
+          Bienvenido {auth.name}
+        </h2>
         <p className="text-center text-lg mb-8">
           Crea tus pacientes y {""}
           <span className="text-indigo-600 font-bold">Administralos</span>
@@ -56,7 +60,7 @@ const Form = () => {
       </motion.div>
       <form
         onSubmit={handleSubmit}
-        className="bg-white rounded-lg shadow-md py-10 px-5 mb-10 md:mb-0"
+        className="bg-white rounded-lg shadow-xl py-10 px-5 mb-10 md:mb-0"
       >
         <motion.div
           initial={"hidden"}

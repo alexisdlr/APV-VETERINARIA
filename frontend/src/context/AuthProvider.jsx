@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
     const autenticarUsuario = async () => {
       const token = localStorage.getItem('token');
 
-      console.log('token desde authProvider', token)
       if(!token) {
         setCargando(false)
         return
@@ -23,8 +22,6 @@ export const AuthProvider = ({ children }) => {
       }
       try {
         const {data} = await makeRequest('/api/veterinarios/perfil', config)
-        console.log(cargando, 'desde context provider ')
-        console.log('desde context provider, imprimiendo la data de la api', data)
         setAuth(data);
       } catch (error) {
         console.log(error.response.data.msg)
@@ -32,7 +29,6 @@ export const AuthProvider = ({ children }) => {
       }
 
       setCargando(false)
-      console.log(cargando, 'desde fuera de la funcion');
     }
 
     autenticarUsuario()
