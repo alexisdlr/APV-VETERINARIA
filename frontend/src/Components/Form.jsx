@@ -3,15 +3,17 @@ import { motion } from "framer-motion";
 import useAuth from "../hooks/useAuth";
 import Alerta from "./Alerta";
 import usePacientes from "../hooks/usePacientes";
+import { useEffect } from "react";
 
 const Form = () => {
   const { auth } = useAuth();
-  const { crearPaciente } = usePacientes();
+  const { crearPaciente, paciente } = usePacientes();
   const [email, setEmail] = useState("");
   const [nombre, setNombre] = useState("");
   const [propietario, setPropietario] = useState("");
   const [fecha, setFecha] = useState("");
   const [sintomas, setSintomas] = useState("");
+  const [id, setId] = useState(null);
   const [alerta, setAlerta] = useState({});
   const index = 0;
   const variants = {
@@ -27,6 +29,17 @@ const Form = () => {
     }),
   };
 
+  useEffect(() => {
+    if (paciente?.nombre) {
+      setNombre(paciente.nombre);
+      setPropietario(paciente.propietario);
+      setEmail(paciente.email);
+      setSintomas(paciente.sintomas);
+      setFecha(paciente.fecha)
+      setId(paciente._id);
+    }
+  }, [paciente]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -37,9 +50,17 @@ const Form = () => {
       });
       return;
     }
+    crearPaciente({ nombre, propietario, email, fecha, sintomas, id });
+    setAlerta({
+      msg: 'Guardado Correctamente'
+    });
+    setNombre('');
+    setPropietario('');
+    setEmail('');
+    setSintomas('');
+    setFecha('')
+    setId('');
 
-    setAlerta({});
-    crearPaciente({ nombre, propietario, email, fecha, sintomas });
   };
   const { msg } = alerta;
   return (
@@ -166,7 +187,7 @@ const Form = () => {
         </motion.div>
         <input
           type={"submit"}
-          value="Crear paciente"
+          value={id ? "Guardar cambios" : "Agregar paciente"}
           className="transition ease-in-out duration-300 w-full uppercase font-bold p-3 bg-indigo-600 text-white rounded-xl hover:cursor-pointer hover:bg-indigo-800 mb-6"
         />
         {msg && <Alerta alerta={alerta} />}

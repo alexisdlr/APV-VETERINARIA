@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
+import usePacientes from "../hooks/usePacientes";
 const Paciente = ({ paciente, index}) => {
 
+  const {editarPaciente, eliminarPaciente} = usePacientes()
 
   const formatearFecha = (fecha) => {
     const nuevaFecha = new Date(fecha);
@@ -60,6 +62,20 @@ const Paciente = ({ paciente, index}) => {
           {paciente.sintomas}
         </span>
       </p>
+      <div className="flex justify-between my-2">
+        <button
+        onClick={() => editarPaciente(paciente)}
+         className="transition ease-in-out duration-300 uppercase font-bold py-2 px-5 bg-indigo-600 text-white rounded-lg hover:cursor-pointer hover:bg-indigo-800"
+         >
+          Editar
+        </button>
+        <button
+        onClick={() => eliminarPaciente(paciente._id)}
+        className="transition ease-in-out duration-300 uppercase font-bold py-2 px-5 bg-red-600 text-white rounded-lg hover:cursor-pointer hover:bg-red-800"
+        >
+          Eliminar
+        </button>
+      </div>
     </motion.div>
   );
 };
