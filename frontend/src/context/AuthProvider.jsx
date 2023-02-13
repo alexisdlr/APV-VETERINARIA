@@ -38,8 +38,12 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('token')
     setAuth({})
   }
+
+  const actualizarPerfil = (perfil) => {
+    console.log(perfil)
+  }
   return (
-    <AuthContext.Provider value={{ auth, setAuth, cargando, logout }}>
+    <AuthContext.Provider value={{ auth, setAuth, cargando, logout, actualizarPerfil}}>
       {children}
     </AuthContext.Provider>
   );

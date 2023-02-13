@@ -39,7 +39,7 @@ export const login = async (req, res) => {
 
   res.json({
     _id: usuario.id,
-    nombre: usuario.name,
+    name: usuario.name,
     email: usuario.email,
     token: generateJWT(usuario.id, usuario.email),
 
@@ -112,4 +112,26 @@ export const newPass = async (req, res) => {
     console.log(error)
   }
 
+}
+export const updateProfile = async (req, res) => {
+    const {id} = req.params
+
+    const veterinario = await Veterinario.findById(id)
+
+    if(!veterinario) return res.status(400).json({
+      msg: 'no se encontro el veterinario'
+    })
+    try {
+      veterinario.name = req.body.name || veterinario.name
+      veterinario.email = req.body.email || veterinario.email
+      veterinario.telefono = req.body.telefono || veterinario.telefono
+      veterinario.web = req.body.web || veterinario.web
+      await veterinario.save()
+      return res.json({
+        msg: 'actualizado correctamente'
+      })
+      
+    } catch (error) {
+      console.log(error)
+    }
 }

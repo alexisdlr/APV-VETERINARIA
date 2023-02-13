@@ -4,7 +4,9 @@ import { PacienteProvider } from "./context/PacientesProvider";
 import AuthLayout from "./Layout/AuthLayout";
 import ProtectedRoutes from "./Layout/ProtectedRoutes";
 import AdminPacientes from "./Pages/AdminPacientes";
+import CambiarPassword from "./Pages/CambiarPassword";
 import ConfirmarCuenta from "./Pages/ConfirmarCuenta";
+import EditarPerfil from "./Pages/EditarPerfil";
 import Login from "./Pages/Login";
 import NuevoPassword from "./Pages/NuevoPassword";
 import OlvidePassword from "./Pages/OlvidePassword";
@@ -28,6 +30,9 @@ function App() {
             </Route>
             <Route path="/admin" element={<ProtectedRoutes />}>
               <Route index element={<AdminPacientes />} />
+              <Route path="perfil" element={<EditarPerfil />} />
+              <Route path="cambiar-password" element={<CambiarPassword />} />
+
             </Route>
           </Routes>
         </PacienteProvider>

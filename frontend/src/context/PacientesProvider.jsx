@@ -8,7 +8,6 @@ export const PacienteProvider = ({ children }) => {
   const [pacientes, setPacientes] = useState([]);
   const [paciente, setPaciente] = useState({});
   const token = localStorage.getItem("token");
-  console.log(token);
   const config = {
     headers: {
       "Content-Type": "application/json",

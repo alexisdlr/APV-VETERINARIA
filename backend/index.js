@@ -26,5 +26,5 @@ app.use('/api/veterinarios', veterinarioRoutes)
 app.use('/api/pacientes', pacienteRoutes)
 
 app.listen(PORT, () => {
-  console.log('I been bollin up boy but aint nun major')
+  console.log('Working')
 })
