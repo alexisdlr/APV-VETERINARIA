@@ -28,7 +28,7 @@ const EditarPerfil = () => {
     }),
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault()
 
     const {name, email} = perfil
@@ -41,7 +41,9 @@ const EditarPerfil = () => {
       return
     }
     
-    actualizarPerfil(perfil)
+    const respuesta = await actualizarPerfil(perfil)
+
+    setAlerta(respuesta)
     
   }
 
@@ -68,15 +70,15 @@ const EditarPerfil = () => {
               className="mb-3 mt-3"
             >
               <label
-                htmlFor="nombre"
+                htmlFor="name"
                 className="uppercase text-gray-700 font-bold"
               >
                 Nombre
               </label>
               <input
-                id="nombre"
+                id="name"
                 type={"text"}
-                name="nombre"
+                name="name"
                 value={perfil.name || ''}  
                 onChange={e => setPerfil({...perfil, [e.target.name]: e.target.value})}
                 className="transition ease-in-out duration-300 border-2 w-full mt-3 p-3 bg-gray-50 rounded-xl focus:outline-0 focus:border-indigo-700"
