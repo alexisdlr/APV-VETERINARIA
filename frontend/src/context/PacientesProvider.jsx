@@ -1,19 +1,22 @@
 import { createContext } from "react";
 import { useEffect, useState } from "react";
 import makeRequest from "../config/axios";
-
+import useAuth from "../hooks/useAuth";
 const PacienteContext = createContext();
 
 export const PacienteProvider = ({ children }) => {
   const [pacientes, setPacientes] = useState([]);
   const [paciente, setPaciente] = useState({});
+  const { auth } = useAuth();
   const token = localStorage.getItem("token");
+
   const config = {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
   };
+
   const crearPaciente = async (paciente) => {
     if (paciente.id) {
       const { data } = await makeRequest.put(
@@ -21,8 +24,10 @@ export const PacienteProvider = ({ children }) => {
         paciente,
         config
       );
-      const pacientesAct = pacientes.map(pacienteState => pacienteState._id === data._id ? data : pacienteState)
-      setPacientes(pacientesAct)
+      const pacientesAct = pacientes.map((pacienteState) =>
+        pacienteState._id === data._id ? data : pacienteState
+      );
+      setPacientes(pacientesAct);
     } else {
       try {
         const { data } = await makeRequest.post(
@@ -37,23 +42,28 @@ export const PacienteProvider = ({ children }) => {
       }
     }
   };
+
   const editarPaciente = (paciente) => {
     setPaciente(paciente);
   };
 
-  const eliminarPaciente = async id => {
-    const confirmar = confirm('Seguro que deseas eliminar?')
+  const eliminarPaciente = async (id) => {
+    const confirmar = confirm("Seguro que deseas eliminar?");
 
-    if(confirmar) {
+    if (confirmar) {
       try {
-        const {data}  = await makeRequest.delete(`/api/pacientes/${id}`, config)
-        const pacientesFilter = pacientes.filter( p => p._id !== id)
-        setPacientes(pacientesFilter)
+        const { data } = await makeRequest.delete(
+          `/api/pacientes/${id}`,
+          config
+        );
+        const pacientesFilter = pacientes.filter((p) => p._id !== id);
+        setPacientes(pacientesFilter);
       } catch (error) {
-        console.log(error.response.data.msg)
+        console.log(error.response.data.msg);
       }
     }
-  }
+  };
+
   useEffect(() => {
     const obtenerPaciente = async () => {
       try {
@@ -65,7 +75,8 @@ export const PacienteProvider = ({ children }) => {
       }
     };
     obtenerPaciente();
-  }, []);
+  }, [auth]);
+
   return (
     <PacienteContext.Provider
       value={{
@@ -73,7 +84,7 @@ export const PacienteProvider = ({ children }) => {
         crearPaciente,
         editarPaciente,
         paciente,
-        eliminarPaciente
+        eliminarPaciente,
       }}
     >
       {children}
