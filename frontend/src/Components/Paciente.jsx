@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import usePacientes from "../hooks/usePacientes";
 const Paciente = ({ paciente, index}) => {
 
+
   const {editarPaciente, eliminarPaciente} = usePacientes()
 
   const formatearFecha = (fecha) => {

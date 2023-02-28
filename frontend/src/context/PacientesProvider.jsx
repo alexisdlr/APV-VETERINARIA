@@ -1,11 +1,13 @@
 import { createContext } from "react";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import makeRequest from "../config/axios";
 import useAuth from "../hooks/useAuth";
 const PacienteContext = createContext();
 
 export const PacienteProvider = ({ children }) => {
   const [pacientes, setPacientes] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams()
   const [paciente, setPaciente] = useState({});
   const { auth } = useAuth();
   const token = localStorage.getItem("token");
@@ -85,6 +87,8 @@ export const PacienteProvider = ({ children }) => {
         editarPaciente,
         paciente,
         eliminarPaciente,
+        searchParams,
+        setSearchParams
       }}
     >
       {children}

@@ -22,6 +22,9 @@ const corsOptions = {
 }
 app.use(cors(corsOptions))
 app.use(express.json())
+app.use('/', (req, res) => {
+  res.send('holamundo')
+})
 app.use('/api/veterinarios', veterinarioRoutes)
 app.use('/api/pacientes', pacienteRoutes)
 

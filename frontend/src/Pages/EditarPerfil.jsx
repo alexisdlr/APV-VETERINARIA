@@ -44,6 +44,9 @@ const EditarPerfil = () => {
     const respuesta = await actualizarPerfil(perfil)
 
     setAlerta(respuesta)
+    setTimeout(() => {
+      setAlerta({})
+    }, 2500);
     
   }
 

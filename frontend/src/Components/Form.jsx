@@ -7,7 +7,7 @@ import { useEffect } from "react";
 
 const Form = () => {
   const { auth } = useAuth();
-  const { crearPaciente, paciente } = usePacientes();
+  const { crearPaciente, paciente, editarPaciente } = usePacientes();
   const [email, setEmail] = useState("");
   const [nombre, setNombre] = useState("");
   const [propietario, setPropietario] = useState("");
@@ -30,7 +30,7 @@ const Form = () => {
   };
 
   useEffect(() => {
-    if (paciente?.nombre) {
+    if (paciente?._id) {
       setNombre(paciente.nombre);
       setPropietario(paciente.propietario);
       setEmail(paciente.email);
@@ -48,6 +48,9 @@ const Form = () => {
         msg: "Ningun campo puede estar vacio",
         error: true,
       });
+      setTimeout(() => {
+        setAlerta({})
+      }, 2000)
       return;
     }
     crearPaciente({ nombre, propietario, email, fecha, sintomas, id });
@@ -60,7 +63,9 @@ const Form = () => {
     setSintomas('');
     setFecha('')
     setId('');
-
+    setTimeout(() => {
+      setAlerta({})
+    }, 2000)
   };
   const { msg } = alerta;
   return (
@@ -190,6 +195,16 @@ const Form = () => {
           value={id ? "Guardar cambios" : "Agregar paciente"}
           className="transition ease-in-out duration-300 w-full uppercase font-bold p-3 bg-indigo-600 text-white rounded-xl hover:cursor-pointer hover:bg-indigo-800 mb-6"
         />
+        {
+          id ? <button onClick={() => {
+            editarPaciente({})
+            setNombre('')
+            setEmail('')
+            setPropietario('')
+            setSintomas('')
+            setId(null);
+          }} className="transition ease-in-out duration-300 px-6 py-3 bg-red-500 text-white font-bold uppercase rounded-xl w-full hover:cursor-pointer hover:bg-red-800 ">Cancelar</button>  : ''
+        }
         {msg && <Alerta alerta={alerta} />}
       </form>
     </>

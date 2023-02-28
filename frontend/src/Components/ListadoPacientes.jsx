@@ -1,8 +1,11 @@
 import usePacientes from "../hooks/usePacientes";
+import BuscarPacientes from "./BuscarPaciente";
 import Paciente from "./Paciente";
 
 const ListadoPacientes = () => {
-  const { pacientes } = usePacientes();
+  const { pacientes, searchParams } = usePacientes();
+  const filter = searchParams.get("filter") ?? ""
+
   return (
     <>
       {pacientes.length ? (
@@ -14,9 +17,18 @@ const ListadoPacientes = () => {
             Administra tus {""}
             <span className="font-bold text-indigo-600">Pacientes y Citas</span>
           </p>
-
+          
+            <BuscarPacientes />
+          
           <div className="flex flex-wrap justify-center">
-            {pacientes.map((paciente, index) => (
+            {
+          
+            pacientes.filter(paciente => {
+              if (!filter) return true;
+              
+              return paciente.nombre.toLowerCase().includes(filter.toLowerCase()) || paciente.propietario.toLowerCase().includes(filter.toLowerCase());
+            })
+            .map((paciente, index) => (
               <Paciente key={index} paciente={paciente} index={index} />
             ))}
           </div>
